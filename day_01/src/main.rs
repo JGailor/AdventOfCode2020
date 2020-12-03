@@ -12,14 +12,8 @@ fn main() {
     let input_fn = args[1].clone();
     let numbers = parse_input_to_numbers(input_fn);
 
-    for (index, number) in numbers.iter().enumerate() {
-        for next_number in &numbers[index+1..] {
-            if number + next_number == 2020 {
-                println!("{} + {} = {}", number, next_number, number + next_number);
-                println!("{} * {} = {}", number, next_number, number * next_number);
-            }
-        }
-    }
+    two_numbers(&numbers);
+    three_numbers(&numbers);
 }
 
 fn parse_input_to_numbers<P>(filename: P) -> Vec<u32> 
@@ -41,4 +35,30 @@ where P: AsRef<Path> {
     }
 
     results
+}
+
+fn two_numbers(numbers: &Vec<u32>) {
+    'outer: for (index, number) in numbers.iter().enumerate() {
+        for next_number in &numbers[index+1..] {
+            if number + next_number == 2020 {
+                println!("{} + {} = {}", number, next_number, number + next_number);
+                println!("{} * {} = {}", number, next_number, number * next_number);
+                break 'outer;
+            }
+        }
+    }  
+}
+
+fn three_numbers(numbers: &Vec<u32>) {
+    'outer: for (index, number) in numbers.iter().enumerate() {
+        for next_number in &numbers[index+1..] {
+            for next_next_number in &numbers[index+2..] {
+                if number + next_number + next_next_number == 2020 {
+                    println!("{} + {} + {} = {}", number, next_number, next_next_number, number + next_number + next_next_number);
+                    println!("{} * {} * {} = {}", number, next_number, next_next_number, number * next_number * next_next_number);
+                    break 'outer;
+                }
+            }
+        }
+    }    
 }
